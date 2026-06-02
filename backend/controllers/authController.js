@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const generateToken = require('../utils/token');
 const { sendOtp, checkOtp } = require('../config/twilio');
+const { sendVerificationEmail } = require('../utils/email');
+const crypto = require('crypto');
 
 // user enter phone no. [signup]
 exports.sendOtp = async (req, res, next) => {
@@ -32,6 +34,54 @@ exports.verifyOtp = async (req, res, next) => {
     next(e); 
   }
 };
+
+
+// Helper — generate 6 digit OTP
+const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
+
+// Temporary store for OTPs (use Redis in production)
+const otpStore = new Map();
+
+// send-email-otp
+exports.sendEmailOtp = async (req, res) => {
+  try {
+    const { email, name } = req.body;
+
+    // Check if email already registered
+    const existing = await User.findOne({ email });
+    if (existing) return res.status(400).json({ message: 'Email already registered' });
+
+    const otp = generateOTP();
+    const expires = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    // Store OTP temporarily
+    otpStore.set(email, { otp, expires });
+
+    await sendVerificationEmail(email, name, otp);
+
+    res.json({ success: true, message: 'OTP sent to your email' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+// email verification otp
+exports.verifyEmailOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const stored = otpStore.get(email);
+    if (!stored) return res.status(400).json({ message: 'OTP not found. Request a new one.' });
+    if (Date.now() > stored.expires) return res.status(400).json({ message: 'OTP expired. Request a new one.' });
+    if (stored.otp !== otp) return res.status(400).json({ message: 'Invalid OTP.' });
+
+    otpStore.delete(email); // clear after use
+    res.json({ success: true, message: 'Email verified!' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 
 // signup form after otp verification
 exports.signup = async (req, res, next) => {
