@@ -32,6 +32,8 @@ exports.place = async (req, res, next) => {
       shippingAddress
     });
 
+    const populatedOrder = await Order.findById(order._id).populate('items.bookId');
+
     // empty the user cart
     user.cart = [];
 
@@ -41,7 +43,7 @@ exports.place = async (req, res, next) => {
     try {
       await sendSms(user.phone, `Your order #${order._id} has been placed! Total: $ ${totalAmount.toFixed(2)}. We'll notify you when it ships.`);
       // In createOrder controller — after order saved
-      await sendOrderConfirmationEmail(user.email, user.name, order);
+      await sendOrderConfirmationEmail(user.email, user.name, populatedOrder);
     } catch (e) {
       console.warn('SMS failed:', e.message);
     }
