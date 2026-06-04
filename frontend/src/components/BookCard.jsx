@@ -14,72 +14,69 @@ export default function BookCard({ book }) {
 
   const handleAdd = async () => {
     if (!user) return nav('/login');
-    if (outOfStock) return; // extra safety guard
-
+    if (outOfStock) return;
     await addToCart(book._id, 1);
-    toast.success('Added to cart');
+    toast.success(`"${book.title}" added to cart`);
   };
 
   return (
-    <div className="bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden flex flex-col">
+    <div className="bg-white rounded-xl border border-amber-100 overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-lg transition-all duration-200">
 
-      {/* Image + stock badge */}
-      <Link to={`/books/${book._id}`} className="relative">
+      {/* Image */}
+      <Link to={`/books/${book._id}`} className="relative block">
         <img
           src={book.image || 'https://via.placeholder.com/300x400?text=Book'}
           alt={book.title}
-          className={`w-full h-56 object-cover ${outOfStock ? 'opacity-60' : ''}`}
+          className={`w-full h-52 object-cover ${outOfStock ? 'opacity-50' : ''}`}
         />
 
-        {/* Out of stock overlay */}
         {outOfStock && (
-          <span className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+          <span className="absolute top-2 left-2 bg-red-100 text-red-700 text-xs font-semibold px-2 py-1 rounded-md">
             Out of Stock
           </span>
         )}
 
-        {/* Low stock warning — only show if not out of stock */}
         {lowStock && (
-          <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded animate-pulse">
+          <span className="absolute top-2 left-2 bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded-md animate-pulse">
             ⚡ Only {book.stock} left!
           </span>
         )}
       </Link>
 
+      {/* Body */}
       <div className="p-3 flex flex-col flex-1">
-        <span className="text-xs text-indigo-600 font-semibold">
+
+        <span className="text-xs font-semibold uppercase tracking-wider text-amber-700">
           {book.category}
         </span>
 
-        <Link
-          to={`/books/${book._id}`}
-          className="font-semibold mt-1 line-clamp-1 hover:underline"
-        >
+        <Link to={`/books/${book._id}`}
+          className="font-bold text-stone-900 mt-1 line-clamp-1 hover:text-amber-600 transition-colors text-base no-underline">
           {book.title}
         </Link>
 
-        <p className="text-sm text-slate-500">{book.author}</p>
+        <p className="text-xs text-stone-400 mt-0.5">{book.author}</p>
 
-        {/* Hurry up text below author */}
         {lowStock && (
-          <p className="text-xs text-orange-500 font-medium mt-1 animate-pulse">
+          <p className="text-xs text-orange-500 font-medium mt-1">
             Hurry! Only {book.stock} items left
           </p>
         )}
 
-        <div className="mt-auto flex justify-between items-center pt-3">
-          <span className="font-bold text-lg">${book.price}</span>
+        {/* Footer */}
+        <div className="mt-auto pt-3 border-t border-amber-50 flex justify-between items-center">
+          <span className="text-lg font-bold text-stone-900">
+            ${book.price}
+          </span>
 
           <button
             onClick={handleAdd}
             disabled={outOfStock}
-            className={`px-3 py-1.5 rounded text-sm transition
+            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors
               ${outOfStock
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-indigo-600 text-white hover:bg-indigo-700'
-              }`}
-          >
-            {outOfStock ? 'Sold Out' : 'Add'}
+                ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
+                : 'bg-stone-900 text-amber-50 hover:bg-amber-700'}`}>
+            {outOfStock ? 'Sold Out' : 'Add to Cart'}
           </button>
         </div>
       </div>

@@ -20,7 +20,7 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <main className="max-w-6xl mx-auto px-4 py-6">
+      <main className="px-2 py-2">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/books" element={<Books />} />

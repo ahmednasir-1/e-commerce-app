@@ -27,12 +27,40 @@ const orderSchema = new mongoose.Schema({
   },
 
 
+  // backend/models/Order.js
   shippingAddress: {
-    street: { type: String, required: true },
-    city: { type: String, required: true },
-    country: { type: String, required: true },
+    street:
+    {
+      type: String,
+      required: true
+    },
+    city: {
+      type: String,
+      required: true
+    },
+    state: {
+      type: String,
+      required: true
+    },
+    zipCode: {
+      type: String
+    },
+    country: {
+      type: String,
+      required: true
+    },
   },
-
+  
+  paymentMethod: {
+    type: String,
+    enum: ['cod'],
+    default: 'cod'
+  },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'paid'],
+    default: 'pending'
+  },
 
 }, {
   timestamps: true
