@@ -18,8 +18,10 @@ exports.add = async (req, res, next) => {
     const { bookId, quantity = 1 } = req.body;
 
     const book = await Book.findById(bookId);
-    if (!book) return res.status(404).json({ message: 'Book not found' });
-    if (book.stock === 0) return res.status(400).json({ message: 'This book is out of stock' });
+    if (!book)
+       return res.status(404).json({ message: 'Book not found' });
+    if (book.stock === 0) 
+      return res.status(400).json({ message: 'This book is out of stock' });
 
     const user = await User.findById(req.user._id);
     const existing = user.cart.find(i => i.bookId.toString() === bookId);
@@ -37,7 +39,7 @@ exports.add = async (req, res, next) => {
     }
 
     await user.save();
-    const cart = await getPopulatedCart(req.user._id); // ✅
+    const cart = await getPopulatedCart(req.user._id); 
     res.json({ success: true, cart });
   } catch (e) { next(e); }
 };
@@ -55,11 +57,12 @@ exports.update = async (req, res, next) => {
 
     const user = await User.findById(req.user._id);
     const item = user.cart.find(i => i.bookId.toString() === bookId);
-    if (!item) return res.status(404).json({ message: 'Item not in cart' });
+    if (!item) 
+      return res.status(404).json({ message: 'Item not in cart' });
 
     item.quantity = quantity;
     await user.save();
-    const cart = await getPopulatedCart(req.user._id); // ✅
+    const cart = await getPopulatedCart(req.user._id); 
     res.json({ success: true, cart });
   } catch (e) { next(e); }
 };
@@ -69,7 +72,7 @@ exports.remove = async (req, res, next) => {
     const user = await User.findById(req.user._id);
     user.cart = user.cart.filter(i => i.bookId.toString() !== req.params.bookId);
     await user.save();
-    const cart = await getPopulatedCart(req.user._id); // ✅ fixed: was calling populated()
+    const cart = await getPopulatedCart(req.user._id); 
     res.json({ success: true, cart });
   } catch (e) { next(e); }
 };

@@ -67,7 +67,8 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
-    if (!book) return res.status(404).json({ success: false, message: 'Book not found' });
+    if (!book) 
+      return res.status(404).json({ success: false, message: 'Book not found' });
 
     let imageUrl = book.image; // keep old image by default
 

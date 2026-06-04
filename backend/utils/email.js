@@ -8,7 +8,7 @@ const sendVerificationEmail = async (toEmail, userName, otp) => {
   await resend.emails.send({
     from: process.env.FROM_EMAIL,
     to: toEmail,
-    subject: 'Verify your BookStore account',
+    subject: 'Verify your Book Haven account',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px;">
         <h2 style="color: #1a1a1a;">Welcome to BookStore, ${userName}! 👋</h2>
@@ -18,9 +18,9 @@ const sendVerificationEmail = async (toEmail, userName, otp) => {
           <h1 style="color: #4F46E5; letter-spacing: 8px; font-size: 36px; margin: 0;">${otp}</h1>
         </div>
 
-        <p style="color: #999; font-size: 13px;">If you didn't create a BookStore account, ignore this email.</p>
+        <p style="color: #999; font-size: 13px;">If you didn't create a BookHaven account, ignore this email.</p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-        <p style="color: #999; font-size: 12px;">© 2025 BookStore. All rights reserved.</p>
+        <p style="color: #999; font-size: 12px;">© 2025 BookHaven. All rights reserved.</p>
       </div>
     `,
   });
@@ -73,7 +73,7 @@ const sendOrderConfirmationEmail = async (toEmail, userName, order) => {
         <p style="color: #555;">We'll notify you when your order is shipped.</p>
 
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-        <p style="color: #999; font-size: 12px;">© 2025 BookStore. All rights reserved.</p>
+        <p style="color: #999; font-size: 12px;">© 2025 BookHaven. All rights reserved.</p>
       </div>
     `,
   });
@@ -113,7 +113,7 @@ const sendOrderStatusEmail = async (toEmail, userName, orderId, status) => {
 
         <p style="color: #999; font-size: 13px;">Thank you for shopping with BookStore!</p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-        <p style="color: #999; font-size: 12px;">© 2025 BookStore. All rights reserved.</p>
+        <p style="color: #999; font-size: 12px;">© 2025 BookHaven. All rights reserved.</p>
       </div>
     `,
   });
