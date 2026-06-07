@@ -6,23 +6,57 @@ import toast from 'react-hot-toast';
 
 const STEPS = ['Details', 'Email OTP', 'Phone OTP'];
 
+const COUNTRY_CODES = [
+  { code: '+92',  flag: '🇵🇰', name: 'PK' },
+  { code: '+1',   flag: '🇺🇸', name: 'US' },
+  { code: '+44',  flag: '🇬🇧', name: 'UK' },
+  { code: '+91',  flag: '🇮🇳', name: 'IN' },
+  { code: '+971', flag: '🇦🇪', name: 'AE' },
+  { code: '+966', flag: '🇸🇦', name: 'SA' },
+  { code: '+974', flag: '🇶🇦', name: 'QA' },
+  { code: '+965', flag: '🇰🇼', name: 'KW' },
+  { code: '+973', flag: '🇧🇭', name: 'BH' },
+  { code: '+968', flag: '🇴🇲', name: 'OM' },
+  { code: '+49',  flag: '🇩🇪', name: 'DE' },
+  { code: '+33',  flag: '🇫🇷', name: 'FR' },
+  { code: '+61',  flag: '🇦🇺', name: 'AU' },
+  { code: '+81',  flag: '🇯🇵', name: 'JP' },
+  { code: '+86',  flag: '🇨🇳', name: 'CN' },
+];
+
 export default function Signup() {
   const { signup } = useAuth();
   const nav = useNavigate();
   const [step, setStep] = useState(1);
   const [emailOtp, setEmailOtp] = useState('');
   const [phoneOtp, setPhoneOtp] = useState('');
-  const [form, setForm] = useState({ name: '', email: '', password: '', phone: '' });
+  const [countryCode, setCountryCode] = useState('+92');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
+  // Full E.164 phone: +92 + 3001234567 = +923001234567
+  const fullPhone = `${countryCode}${phoneNumber}`;
+
+  // Only allow digits, max 10
+  const handlePhoneInput = (e) => {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+    setPhoneNumber(digits);
+  };
+
   const sendOtps = async (e) => {
-    e.preventDefault(); setLoading(true);
+    e.preventDefault();
+    if (phoneNumber.length !== 10) {
+      toast.error('Phone number must be exactly 10 digits');
+      return;
+    }
+    setLoading(true);
     try {
       await Promise.all([
         api.post('/auth/send-email-otp', { email: form.email, name: form.name }),
-        api.post('/auth/send-otp', { phone: form.phone }),
+        api.post('/auth/send-otp', { phone: fullPhone }),
       ]);
       toast.success('Verification codes sent!');
       setStep(2);
@@ -41,9 +75,9 @@ export default function Signup() {
   const verifyPhoneAndCreate = async (e) => {
     e.preventDefault(); setLoading(true);
     try {
-      await api.post('/auth/verify-otp', { phone: form.phone, otp: phoneOtp });
+      await api.post('/auth/verify-otp', { phone: fullPhone, otp: phoneOtp });
       toast.success('Phone verified!');
-      await signup({ ...form });
+      await signup({ ...form, phone: fullPhone });
       toast.success('Account created! Welcome 🎉');
       nav('/books');
     } catch {} finally { setLoading(false); }
@@ -85,23 +119,94 @@ export default function Signup() {
           ))}
         </div>
 
-        {/* Step 1 */}
+        {/* ── Step 1 ── */}
         {step === 1 && (
           <form onSubmit={sendOtps} className="space-y-4">
-            {[
-              ['name', 'Full Name', 'text', 'Ahmed Ali'],
-              ['email', 'Email', 'email', 'you@example.com'],
-              ['password', 'Password', 'password', 'Min 6 characters'],
-              ['phone', 'Phone', 'tel', '+92xxxxxxxxxx'],
-            ].map(([key, label, type, ph]) => (
-              <div key={key}>
-                <label className={labelCls}>{label}</label>
-                <input type={type} required placeholder={ph} value={form[key]}
-                  onChange={e => set(key, e.target.value)}
-                  minLength={key === 'password' ? 6 : undefined}
-                  className={inputCls} />
+
+            {/* Name */}
+            <div>
+              <label className={labelCls}>Full Name</label>
+              <input type="text" required placeholder="Ahmed Ali"
+                value={form.name} onChange={e => set('name', e.target.value)}
+                className={inputCls} />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className={labelCls}>Email</label>
+              <input type="email" required placeholder="you@example.com"
+                value={form.email} onChange={e => set('email', e.target.value)}
+                className={inputCls} />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className={labelCls}>Password</label>
+              <input type="password" required placeholder="Min 6 characters"
+                value={form.password} onChange={e => set('password', e.target.value)}
+                minLength={6} className={inputCls} />
+            </div>
+
+            {/* Phone — country code dropdown + 10-digit input */}
+            <div>
+              <label className={labelCls}>Phone Number</label>
+              <div className="flex gap-2">
+
+                {/* Country code dropdown */}
+                <select
+                  value={countryCode}
+                  onChange={e => setCountryCode(e.target.value)}
+                  className="border border-amber-100 rounded-xl px-3 py-3 text-sm bg-amber-50/40
+                    focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100
+                    transition-all shrink-0 cursor-pointer">
+                  {COUNTRY_CODES.map(c => (
+                    <option key={c.code} value={c.code}>
+                      {c.flag} {c.code}
+                    </option>
+                  ))}
+                </select>
+
+                {/* 10-digit number input */}
+                <div className="relative flex-1">
+                  <input
+                    type="tel"
+                    required
+                    placeholder="3001234567"
+                    value={phoneNumber}
+                    onChange={handlePhoneInput}
+                    maxLength={10}
+                    className={`${inputCls} pr-16`}
+                  />
+                  {/* digit counter */}
+                  <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold
+                    ${phoneNumber.length === 10 ? 'text-green-500' : 'text-stone-300'}`}>
+                    {phoneNumber.length}/10
+                  </span>
+                </div>
               </div>
-            ))}
+
+              {/* Preview full number */}
+              {phoneNumber.length > 0 && (
+                <p className="text-xs text-stone-400 mt-1.5 ml-1">
+                  Full number: <span className="text-amber-600 font-medium">{fullPhone}</span>
+                </p>
+              )}
+
+              {/* Warning if incomplete */}
+              {phoneNumber.length > 0 && phoneNumber.length < 10 && (
+                <p className="text-xs text-red-400 mt-1 ml-1">
+                  {10 - phoneNumber.length} more digit{10 - phoneNumber.length !== 1 ? 's' : ''} needed
+                </p>
+              )}
+
+              {/* Green tick when complete */}
+              {phoneNumber.length === 10 && (
+                <p className="text-xs text-green-500 font-medium mt-1 ml-1">
+                  ✓ Phone number complete
+                </p>
+              )}
+            </div>
+
             <button disabled={loading}
               className="w-full bg-stone-900 text-amber-50 py-3 rounded-xl text-sm font-medium hover:bg-amber-700 transition-colors disabled:opacity-60">
               {loading ? 'Sending codes…' : 'Send Verification Codes'}
@@ -109,7 +214,7 @@ export default function Signup() {
           </form>
         )}
 
-        {/* Step 2 */}
+        {/* ── Step 2 — Email OTP ── */}
         {step === 2 && (
           <form onSubmit={verifyEmail} className="space-y-4">
             <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 text-sm text-stone-500">
@@ -132,11 +237,11 @@ export default function Signup() {
           </form>
         )}
 
-        {/* Step 3 */}
+        {/* ── Step 3 — Phone OTP ── */}
         {step === 3 && (
           <form onSubmit={verifyPhoneAndCreate} className="space-y-4">
             <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 text-sm text-stone-500">
-              Code sent to <span className="text-amber-600 font-semibold">{form.phone}</span> via SMS.
+              Code sent to <span className="text-amber-600 font-semibold">{fullPhone}</span> via SMS.
             </div>
             <div>
               <label className={labelCls}>Phone OTP</label>
@@ -157,9 +262,7 @@ export default function Signup() {
 
         <p className="text-xs text-stone-400 mt-5">
           Have an account?{' '}
-          <Link to="/login" className="text-amber-600 font-medium hover:underline">
-            Sign in
-          </Link>
+          <Link to="/login" className="text-amber-600 font-medium hover:underline">Sign in</Link>
         </p>
       </div>
     </div>

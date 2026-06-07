@@ -10,12 +10,17 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const submit = async (e) => {
-    e.preventDefault(); setLoading(true);
+    e.preventDefault(); 
+    setLoading(true);
     try {
       const u = await login(form.email, form.password);
       toast.success('Welcome back!');
       nav(u.role === 'admin' ? '/admin' : '/books');
-    } catch {} finally { setLoading(false); }
+
+    } catch {} 
+    finally { 
+      setLoading(false); 
+    }
   };
 
   const inputCls = "w-full border border-amber-100 rounded-xl px-4 py-3 text-sm bg-amber-50/40 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all";
@@ -35,22 +40,32 @@ export default function Login() {
         <p className="text-sm text-stone-400 mb-6">Sign in to your account to continue</p>
 
         <form onSubmit={submit} className="space-y-4">
+
           <div>
             <label className={labelCls}>Email address</label>
-            <input type="email" required placeholder="you@example.com"
-              value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
-              className={inputCls} />
+            <input type="email" 
+            required 
+            placeholder="you@example.com"
+            value={form.email} 
+            onChange={e => setForm({ ...form, email: e.target.value })}
+            className={inputCls} />
           </div>
+
           <div>
             <label className={labelCls}>Password</label>
-            <input type="password" required placeholder="••••••••"
-              value={form.password} onChange={e => setForm({ ...form, password: e.target.value })}
-              className={inputCls} />
+            <input type="password" 
+            required 
+            placeholder="••••••••"
+            value={form.password} 
+            onChange={e => setForm({ ...form, password: e.target.value })}
+            className={inputCls} />
           </div>
+
           <button disabled={loading}
             className="w-full bg-stone-900 text-amber-50 py-3 rounded-xl text-sm font-medium hover:bg-amber-700 transition-colors disabled:opacity-60 mt-1">
             {loading ? 'Signing in…' : 'Sign in'}
           </button>
+          
         </form>
 
         <p className="text-xs text-stone-400 mt-5">

@@ -13,8 +13,12 @@ export default function BookCard({ book }) {
   const lowStock = book.stock > 0 && book.stock <= 5;
 
   const handleAdd = async () => {
-    if (!user) return nav('/login');
-    if (outOfStock) return;
+    if (!user) 
+      return nav('/login');
+
+    if (outOfStock) 
+      return;
+    
     await addToCart(book._id, 1);
     toast.success(`"${book.title}" added to cart`);
   };

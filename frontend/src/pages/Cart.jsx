@@ -92,7 +92,7 @@ export default function Cart() {
                 <button onClick={() => updateQty(book._id, quantity - 1, book.stock)}
                   disabled={quantity <= 1}
                   className="w-8 h-8 rounded-lg border border-amber-200 font-bold text-stone-700 hover:bg-stone-900 hover:text-white disabled:opacity-30 transition-all">
-                  −
+                  -
                 </button>
                 <span className="w-7 text-center font-semibold text-sm">{quantity}</span>
                 <button onClick={() => updateQty(book._id, quantity + 1, book.stock)}

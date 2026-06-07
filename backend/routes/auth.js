@@ -4,13 +4,13 @@ const validate = require('../middleware/validate');
 const { authenticateUser } = require('../middleware/auth');
 const c = require('../controllers/authController');
 
+// sms routes
 router.post('/send-otp',validate, c.sendOtp);
 router.post('/verify-otp',validate, c.verifyOtp);
 
-// backend/routes/auth.js
+// email routes
 router.post('/send-email-otp',  c.sendEmailOtp);
 router.post('/verify-email-otp', c.verifyEmailOtp);
-
 
 
 router.post('/signup', validate, c.signup);
