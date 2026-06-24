@@ -20,7 +20,7 @@ const sendVerificationEmail = async (toEmail, userName, otp) => {
 
         <p style="color: #999; font-size: 13px;">If you didn't create a BookHaven account, ignore this email.</p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-        <p style="color: #999; font-size: 12px;">© 2025 BookHaven. All rights reserved.</p>
+        <p style="color: #999; font-size: 12px;">© 2026 BookHaven. All rights reserved.</p>
       </div>
     `,
   });
@@ -44,7 +44,7 @@ const sendOrderConfirmationEmail = async (toEmail, userName, order) => {
       ${item.quantity}
     </td>
     <td style="padding: 8px; border-bottom: 1px solid #eee; text-align:right;">
-      $${item.price}  
+      Rs.${item.price}  
     </td>
   </tr>
 `).join('');
@@ -55,7 +55,7 @@ const sendOrderConfirmationEmail = async (toEmail, userName, order) => {
     subject: `Order Confirmed #${order._id}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px;">
-        <h2 style="color: #1a1a1a;">Order Confirmed! 🎉</h2>
+        <h2 style="color: #1a1a1a;">Order Confirmed!</h2>
         <p>Hi ${userName}, your order has been placed successfully.</p>
 
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
@@ -69,11 +69,11 @@ const sendOrderConfirmationEmail = async (toEmail, userName, order) => {
           <tbody>${itemsList}</tbody>
         </table>
 
-        <p style="font-size: 16px;"><strong>Total: $${order.totalAmount}</strong></p>
+        <p style="font-size: 16px;"><strong>Total: Rs.${order.totalAmount}</strong></p>
         <p style="color: #555;">We'll notify you when your order is shipped.</p>
 
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-        <p style="color: #999; font-size: 12px;">© 2025 BookHaven. All rights reserved.</p>
+        <p style="color: #999; font-size: 12px;">© 2026 BookHaven. All rights reserved.</p>
       </div>
     `,
   });
@@ -101,7 +101,7 @@ const sendOrderStatusEmail = async (toEmail, userName, orderId, status) => {
     subject: `Order #${orderId} is now ${status.toUpperCase()}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px;">
-        <h2 style="color: #1a1a1a;">Order Update 📦</h2>
+        <h2 style="color: #1a1a1a;">Order Update </h2>
         <p>Hi ${userName}, your order status has been updated.</p>
 
         <div style="background: #f4f4f4; border-radius: 8px; padding: 20px; text-align: center; margin: 24px 0;">
@@ -113,7 +113,7 @@ const sendOrderStatusEmail = async (toEmail, userName, orderId, status) => {
 
         <p style="color: #999; font-size: 13px;">Thank you for shopping with BookStore!</p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-        <p style="color: #999; font-size: 12px;">© 2025 BookHaven. All rights reserved.</p>
+        <p style="color: #999; font-size: 12px;">© 2026 BookHaven. All rights reserved.</p>
       </div>
     `,
   });

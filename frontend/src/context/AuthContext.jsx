@@ -16,7 +16,8 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) return dispatch({ type: 'SET_USER', payload: null });
+    if (!token) 
+      return dispatch({ type: 'SET_USER', payload: null });
     api.get('/auth/me').then(r => dispatch({ type: 'SET_USER', payload: r.data.user }))
       .catch(() => dispatch({ type: 'LOGOUT' }));
   }, []);

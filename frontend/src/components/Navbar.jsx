@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useCart } from '../context/CartContext.jsx';
+import { ShoppingCart } from 'lucide-react';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -26,7 +27,8 @@ export default function Navbar() {
             <NavLink to="/cart"
               className={({ isActive }) =>
                 `font-medium flex items-center gap-1.5 transition-colors no-underline ${isActive ? 'text-amber-600' : 'text-stone-400 hover:text-amber-600'}`}>
-              🛒 Cart
+              <ShoppingCart size={15}/>
+              Cart
               {count > 0 && (
                 <span className="bg-amber-500 text-white text-xs font-semibold w-5 h-5 rounded-full flex items-center justify-center">
                   {count}

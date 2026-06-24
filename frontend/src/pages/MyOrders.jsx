@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
 import { Link } from 'react-router-dom';
 import OrderStatusBadge from '../components/OrderStatusBadge.jsx';
+import { Package } from 'lucide-react';
 
 export default function MyOrders() {
   const { data, isLoading } = useQuery({
@@ -16,12 +17,14 @@ export default function MyOrders() {
   );
 
   if (!data?.orders?.length) return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 bg-amber-50">
-      <div className="text-6xl">📦</div>
+    <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 ">
+      <div className="text-6xl">
+        <Package size={19}/>
+      </div>
       <h2 className="text-3xl font-bold text-stone-900">No orders yet</h2>
       <p className="text-stone-500 text-sm">You haven't placed any orders yet.</p>
       <Link to="/books" className="bg-stone-900 text-amber-50 px-7 py-3 rounded-full font-medium text-sm hover:bg-amber-700 transition-colors">
-        Browse Books →
+        Browse Books 
       </Link>
     </div>
   );
@@ -32,7 +35,6 @@ export default function MyOrders() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-2 text-amber-700 text-xs font-semibold tracking-widest uppercase mb-2">
-          <div className="w-6 h-px bg-amber-600" />
           Your history
         </div>
         <h1 className="text-4xl font-bold text-stone-900">My Orders</h1>
@@ -51,18 +53,18 @@ export default function MyOrders() {
               {/* Left */}
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl shrink-0">
-                  📦
+                  <Package size={18}/>
                 </div>
                 <div>
                   <p className="font-bold text-stone-900 text-lg">
                     Order #{o._id.slice(-6).toUpperCase()}
                   </p>
-                  <div className="flex flex-wrap gap-2 text-xs text-stone-400 mt-0.5">
-                    <span>🗓 {new Date(o.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                  <div className="flex flex-wrap gap-2 items-center justify-center text-xs text-stone-400 mt-0.5">
+                    <span>{new Date(o.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                     <span>·</span>
-                    <span>📚 {o.items.length} item{o.items.length !== 1 ? 's' : ''}</span>
+                    <span>{o.items.length} item{o.items.length !== 1 ? 's' : ''}</span>
                     <span>·</span>
-                    <span className="font-bold text-stone-800 text-sm">${o.totalAmount.toFixed(2)}</span>
+                    <span className="font-bold text-stone-800 text-sm">Rs.{o.totalAmount.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
@@ -70,7 +72,6 @@ export default function MyOrders() {
               {/* Right */}
               <div className="flex items-center gap-3">
                 <OrderStatusBadge status={o.status} />
-                <span className="text-amber-600 text-lg">→</span>
               </div>
             </div>
 

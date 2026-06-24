@@ -12,12 +12,14 @@ export default function AdminBooks() {
     toast.success('Deleted');
     qc.invalidateQueries({ queryKey: ['admin-books'] });
   };
+
   return (
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Books</h1>
-        <Link to="/admin/books/add" className="bg-indigo-600 text-white px-4 py-2 rounded">+ Add</Link>
+        <Link to="/admin/books/add" className="bg-black text-white px-4 py-2 rounded">Add a book</Link>
       </div>
+
       <div className="bg-white rounded shadow overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-slate-100"><tr>
@@ -29,7 +31,7 @@ export default function AdminBooks() {
                 <td className="p-3">{b.title}</td>
                 <td className="p-3">{b.author}</td>
                 <td className="text-center">{b.category}</td>
-                <td className="text-center">${b.price}</td>
+                <td className="text-center">Rs.{b.price}</td>
                 <td className="text-center">{b.stock}</td>
                 <td className="p-3 text-right space-x-2">
                   <Link to={`/admin/books/edit/${b._id}`} className="text-indigo-600">Edit</Link>

@@ -42,7 +42,7 @@ export default function Checkout() {
 
         {/* ── Shipping Address ── */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">📦 Shipping Address</h2>
+          <h2 className="text-lg font-semibold mb-4">Shipping Address</h2>
           <div className="space-y-3">
             <div>
               <label className="text-sm text-gray-600 mb-1 block">Street Address</label>
@@ -108,18 +108,18 @@ export default function Checkout() {
 
         {/* ── Payment Method ── */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">💳 Payment Method</h2>
+          <h2 className="text-lg font-semibold mb-4">Payment Method</h2>
 
           {/* COD option — selected by default, only option */}
-          <div className="flex items-center gap-3 border-2 border-indigo-500 rounded-lg p-4 bg-indigo-50">
-            <div className="w-5 h-5 rounded-full border-2 border-indigo-600 flex items-center justify-center">
-              <div className="w-2.5 h-2.5 rounded-full bg-indigo-600" />
+          <div className="flex items-center gap-3 border-2 border-black rounded-lg p-4 bg-indigo-50">
+            <div className="w-5 h-5 rounded-full border-2 border-black flex items-center justify-center">
+              <div className="w-2.5 h-2.5 rounded-full bg-black" />
             </div>
             <div>
-              <p className="font-semibold text-indigo-700">Cash on Delivery</p>
+              <p className="font-semibold text-black">Cash on Delivery</p>
               <p className="text-sm text-gray-500">Pay when your order arrives at your door</p>
             </div>
-            <span className="ml-auto text-2xl">💵</span>
+            <span className="ml-auto text-2xl"></span>
           </div>
         </div>
 
@@ -136,9 +136,9 @@ export default function Checkout() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-indigo-700 disabled:opacity-60 transition"
+          className="w-full bg-black text-white py-3 rounded-lg font-semibold text-lg hover:bg-amber-600 disabled:opacity-60 transition"
         >
-          {loading ? 'Placing Order…' : '✅ Place Order (Cash on Delivery)'}
+          {loading ? 'Placing Order…' : 'Place Order (Cash on Delivery)'}
         </button>
 
       </form>

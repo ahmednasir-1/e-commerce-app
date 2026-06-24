@@ -3,6 +3,7 @@ import { useCart } from '../context/CartContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { AlertTriangle } from 'lucide-react';
 
 export default function BookCard({ book }) {
   const { addToCart } = useCart();
@@ -42,7 +43,8 @@ export default function BookCard({ book }) {
 
         {lowStock && (
           <span className="absolute top-2 left-2 bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded-md animate-pulse">
-            ⚡ Only {book.stock} left!
+            <AlertTriangle/>
+            Only {book.stock} left!
           </span>
         )}
       </Link>
@@ -70,7 +72,7 @@ export default function BookCard({ book }) {
         {/* Footer */}
         <div className="mt-auto pt-3 border-t border-amber-50 flex justify-between items-center">
           <span className="text-lg font-bold text-stone-900">
-            ${book.price}
+            Rs.{book.price}
           </span>
 
           <button

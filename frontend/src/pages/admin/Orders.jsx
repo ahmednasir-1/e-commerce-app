@@ -28,7 +28,7 @@ export default function AdminOrders() {
               <tr key={o._id} className="border-t">
                 <td className="p-3">#{o._id.slice(-6)}</td>
                 <td>{o.userId?.name} <span className="text-slate-500 text-xs">({o.userId?.email})</span></td>
-                <td className="text-center">${o.totalAmount.toFixed(2)}</td>
+                <td className="text-center">Rs.{o.totalAmount.toFixed(2)}</td>
                 <td className="text-center">{new Date(o.createdAt).toLocaleDateString()}</td>
                 <td className="text-center"><OrderStatusBadge status={o.status}/></td>
                 <td className="text-center">

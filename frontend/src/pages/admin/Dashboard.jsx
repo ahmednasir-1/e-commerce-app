@@ -10,7 +10,7 @@ export default function Dashboard() {
     { label: 'Users', value: users?.users?.length || 0 },
     { label: 'Books', value: books?.total || 0 },
     { label: 'Orders', value: orders?.total || 0 },
-    { label: 'Revenue', value: `$${revenue.toFixed(2)}` },
+    { label: 'Revenue', value: `Rs.${revenue.toFixed(2)}` },
   ];
   return (
     <div>
@@ -24,10 +24,10 @@ export default function Dashboard() {
         ))}
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
-        <a href="/admin/books" className="bg-indigo-600 text-white text-center py-3 rounded">Manage Books</a>
-        <a href="/admin/orders" className="bg-indigo-600 text-white text-center py-3 rounded">Manage Orders</a>
-        <a href="/admin/users" className="bg-indigo-600 text-white text-center py-3 rounded">Manage Users</a>
-        <a href="/admin/books/add" className="bg-emerald-600 text-white text-center py-3 rounded">+ Add Book</a>
+        <a href="/admin/books" className="bg-black text-white text-center py-3 rounded">Manage Books</a>
+        <a href="/admin/orders" className="bg-black text-white text-center py-3 rounded">Manage Orders</a>
+        <a href="/admin/users" className="bg-black text-white text-center py-3 rounded">Manage Users</a>
+        <a href="/admin/books/add" className="bg-emerald-600 text-white text-center py-3 rounded">Add Book</a>
       </div>
     </div>
   );

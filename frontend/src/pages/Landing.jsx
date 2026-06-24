@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
 import BookCard from '../components/BookCard.jsx';
 import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronRight, Package } from 'lucide-react';
 
 const CATEGORIES = ['Fiction', 'Non-Fiction', 'Science', 'History', 'Technology', 'Biography', 'Children'];
 
@@ -24,7 +25,6 @@ export default function Landing() {
           <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-amber-200 opacity-20 pointer-events-none -translate-x-1/3 -translate-y-1/3" />
 
           <div className="flex items-center gap-2 mb-5">
-            <div className="w-6 h-px bg-amber-600" />
             <span className="text-xs font-semibold text-amber-600 uppercase tracking-widest">
               Curated for curious minds
             </span>
@@ -37,7 +37,7 @@ export default function Landing() {
           </h1>
 
           <p className="text-stone-500 text-lg leading-relaxed max-w-md mb-8 font-light">
-            Explore thousands of titles across every genre — from timeless classics to today's most talked-about releases.
+            Explore thousands of titles across every genre from timeless classics to today's most talked-about releases.
           </p>
 
           <div className="flex items-center gap-4 flex-wrap">
@@ -47,13 +47,13 @@ export default function Landing() {
             </Link>
             <Link to="/books"
               className="text-stone-900 font-medium flex items-center gap-1 hover:text-amber-600 transition-colors no-underline">
-              View Categories →
+              View Categories <ArrowRight size={15}/>
             </Link>
           </div>
 
           {/* Stats */}
           <div className="flex flex-wrap gap-10 mt-12 pt-8 border-t border-amber-200">
-            {[['12K+', 'Titles in stock'], ['40+', 'Genres'], ['4.9★', 'Avg. rating']].map(([num, label]) => (
+            {[['1K+', 'Titles in stock'], ['10+', 'Genres'], ['4.9★', 'Avg. rating']].map(([num, label]) => (
               <div key={label}>
                 <div className="font-serif text-3xl font-bold text-stone-900">{num}</div>
                 <div className="text-xs text-stone-400 mt-0.5">{label}</div>
@@ -71,7 +71,8 @@ export default function Landing() {
 
           {/* Floating badge */}
           <div className="absolute top-8 right-8 bg-amber-500 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-lg z-10 animate-bounce">
-            📦 Free delivery over $30
+            <Package size={15}/>
+            Free delivery over Rs. 2000
           </div>
 
           {/* Book stack */}
@@ -101,7 +102,8 @@ export default function Landing() {
         <div className="flex items-baseline justify-between mb-6">
           <h2 className="font-serif text-3xl font-bold text-stone-900">Browse by Genre</h2>
           <Link to="/books" className="text-amber-600 text-sm font-medium hover:underline no-underline">
-            View all →
+            View all 
+            <ChevronRight size={14}/>
           </Link>
         </div>
 
@@ -122,7 +124,8 @@ export default function Landing() {
         <div className="flex items-baseline justify-between mb-6">
           <h2 className="font-serif text-3xl font-bold text-stone-900">Featured Books</h2>
           <Link to="/books" className="text-amber-600 text-sm font-medium hover:underline no-underline">
-            See all →
+            See all 
+            <ChevronRight size={14}/>
           </Link>
         </div>
 
@@ -144,12 +147,13 @@ export default function Landing() {
             Start reading something new today
           </h2>
           <p className="text-amber-50/60 text-sm">
-            Free delivery on orders over $30 · Easy returns · Verified reviews
+            Free delivery on orders over Rs. 2000 · Easy returns · Verified reviews
           </p>
         </div>
         <Link to="/books"
-          className="bg-amber-500 hover:bg-amber-400 text-white px-7 py-3 rounded-full font-semibold whitespace-nowrap transition-colors relative z-10 no-underline">
-          Shop Now →
+          className="bg-amber-500 flex gap-2 items-center hover:bg-amber-400 text-white px-7 py-3 rounded-full font-semibold whitespace-nowrap transition-colors relative z-10 no-underline">
+          Shop Now 
+          <ArrowRight size={15}/>
         </Link>
       </div>
 

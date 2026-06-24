@@ -41,7 +41,7 @@ exports.place = async (req, res, next) => {
 
     // send sms to user about order
     try {
-      await sendSms(user.phone, `Your order #${order._id} has been placed! Total: $ ${totalAmount.toFixed(2)}. We'll notify you when it ships. Thank you for shopping with BookHaven!`);
+      // await sendSms(user.phone, `Your order #${order._id} has been placed! Total: $ ${totalAmount.toFixed(2)}. We'll notify you when it ships. Thank you for shopping with BookHaven!`);
       // In createOrder controller — after order saved
       await sendOrderConfirmationEmail(user.email, user.name, populatedOrder);
     } catch (e) {
@@ -114,7 +114,7 @@ exports.updateStatus = async (req, res, next) => {
 
     // send sms to user of order status
     try {
-      await sendSms(order.userId.phone, `Order #${order._id} status updated to: ${status}. Thank you for shopping with BookHaven!`);
+      // await sendSms(order.userId.phone, `Order #${order._id} status updated to: ${status}. Thank you for shopping with BookHaven!`);
       // In createOrder controller — after order saved
       await sendOrderStatusEmail(order.userId.email, order.userId.name, order._id, status);
 

@@ -28,7 +28,7 @@ export default function Books() {
         {data && data.pages > 1 && (
           <div className="flex justify-center gap-2 mt-6">
             {Array.from({length: data.pages}).map((_,i)=>(
-              <button key={i} onClick={()=>setFilters({...filters, page:i+1})} className={`px-3 py-1.5 rounded border ${filters.page===i+1?'bg-indigo-600 text-white':'bg-white'}`}>{i+1}</button>
+              <button key={i} onClick={()=>setFilters({...filters, page:i+1})} className={`px-3 py-1.5 rounded border ${filters.page===i+1?'bg-amber-600 text-white':'bg-white'}`}>{i+1}</button>
             ))}
           </div>
         )}
