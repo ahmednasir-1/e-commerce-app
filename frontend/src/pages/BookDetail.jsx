@@ -48,64 +48,74 @@ export default function BookDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50/40 px-6 md:px-[6vw] py-12">
-
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-xs text-stone-400 mb-8">
-        <Link to="/" className="text-amber-600 hover:underline no-underline">Home</Link>
-        <span>/</span>
-        <Link to="/books" className="text-amber-600 hover:underline no-underline">Books</Link>
-        <span>/</span>
-        <span className="text-stone-800 font-medium truncate max-w-[200px]">{book.title}</span>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+    <div className="min-h-screen bg-amber-50/40 px-4 sm:px-6 md:px-[6vw] py-8 md:py-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-start">
 
         {/* ── Image ── */}
-        <div className="sticky top-20">
-          <div className="bg-amber-50 rounded-2xl p-8 flex items-center justify-center border border-amber-100 min-h-[400px]">
+        <div className="md:sticky md:top-20">
+          <div className="bg-amber-50 rounded-2xl p-4 sm:p-6 md:p-8 flex items-center justify-center border border-amber-100 min-h-[250px] sm:min-h-[350px] md:min-h-[400px]">
             <img
               src={book.image || 'https://via.placeholder.com/400x560?text=Book'}
               alt={book.title}
-              className="max-h-[420px] w-full object-contain rounded-lg"
+              className="
+          w-full
+          max-h-[280px]
+          sm:max-h-[350px]
+          md:max-h-[420px]
+          object-contain
+          rounded-lg
+        "
             />
           </div>
 
-          {/* Stock indicator — no emojis ✅ */}
-          <div className={`mt-4 rounded-xl px-4 py-3 text-sm font-semibold border flex items-center gap-2
-            ${outOfStock ? 'bg-red-50 border-red-200 text-red-700'
-            : lowStock   ? 'bg-orange-50 border-orange-200 text-orange-700'
-            :              'bg-green-50 border-green-200 text-green-700'}`}>
-            {outOfStock
-              ? <><XCircle size={16} /> Out of stock</>
-              : lowStock
-              ? <><AlertTriangle size={16} /> Only {book.stock} copies left — order soon!</>
-              : <><CheckCircle size={16} /> In stock — {book.stock} copies available</>
-            }
+          <div
+            className={`mt-4 rounded-xl px-4 py-3 text-sm font-semibold border flex items-center gap-2
+      ${outOfStock
+                ? 'bg-red-50 border-red-200 text-red-700'
+                : lowStock
+                  ? 'bg-orange-50 border-orange-200 text-orange-700'
+                  : 'bg-green-50 border-green-200 text-green-700'
+              }`}
+          >
+            {outOfStock ? (
+              <>
+                <XCircle size={16} /> Out of stock
+              </>
+            ) : lowStock ? (
+              <>
+                <AlertTriangle size={16} />
+                Only {book.stock} copies left — order soon!
+              </>
+            ) : (
+              <>
+                <CheckCircle size={16} />
+                In stock — {book.stock} copies available
+              </>
+            )}
           </div>
         </div>
 
         {/* ── Details ── */}
         <div>
 
-          {/* Category eyebrow */}
-          {/* <div className="flex items-center gap-2 text-amber-700 text-xs font-semibold tracking-widest uppercase mb-3">
-            <div className="w-5 h-px bg-amber-600" /> {book.category}
-          </div> */}
-
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-bold text-stone-900 leading-tight mb-3">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-stone-900 leading-tight mb-3 break-words">
             {book.title}
           </h1>
 
           {/* Author */}
-          <p className="text-stone-400 text-base mb-6">
-            by <span className="font-semibold text-stone-700">{book.author}</span>
+          <p className="text-stone-400 text-sm sm:text-base mb-6">
+            by{' '}
+            <span className="font-semibold text-stone-700">
+              {book.author}
+            </span>
           </p>
 
           {/* Price */}
           <div className="flex items-baseline gap-3 pb-6 mb-6 border-b border-amber-100">
-            <span className="text-5xl font-bold text-stone-900">Rs.{book.price}</span>
+            <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-stone-900">
+              Rs.{book.price}
+            </span>
           </div>
 
           {/* Description */}
@@ -113,20 +123,36 @@ export default function BookDetail() {
             <h3 className="text-xs font-semibold tracking-widest uppercase text-stone-400 mb-3">
               About this book
             </h3>
-            <p className="text-stone-600 leading-relaxed font-light">
-              {book.description || 'No description available for this title.'}
+
+            <p className="text-stone-600 leading-relaxed font-light text-sm sm:text-base">
+              {book.description ||
+                'No description available for this title.'}
             </p>
           </div>
 
           {/* Meta chips */}
           <div className="flex flex-wrap gap-2 mb-8">
             {[
-              { icon: <Tag size={14} />,   label: 'Category', val: book.category },
-              { icon: <User size={14} />,  label: 'Author',   val: book.author },
-              { icon: <Truck size={14} />, label: 'Payment',  val: 'Cash on Delivery' },
+              {
+                icon: <Tag size={14} />,
+                label: 'Category',
+                val: book.category,
+              },
+              {
+                icon: <User size={14} />,
+                label: 'Author',
+                val: book.author,
+              },
+              {
+                icon: <Truck size={14} />,
+                label: 'Payment',
+                val: 'Cash on Delivery',
+              },
             ].map(({ icon, label, val }) => (
-              <div key={label}
-                className="bg-white border border-amber-100 rounded-xl px-4 py-2 text-sm flex items-center gap-2">
+              <div
+                key={label}
+                className="bg-white border border-amber-100 rounded-xl px-4 py-2 text-sm flex items-center gap-2"
+              >
                 <span className="text-amber-600">{icon}</span>
                 <span className="text-stone-400">{label}:</span>
                 <span className="font-medium text-stone-800">{val}</span>
@@ -135,20 +161,24 @@ export default function BookDetail() {
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={handleAdd}
               disabled={outOfStock}
-              className={`flex items-center gap-2 px-8 py-3.5 rounded-full font-medium text-sm transition-colors
-                ${outOfStock
+              className={`w-full sm:w-auto flex justify-center items-center gap-2 px-8 py-3.5 rounded-full font-medium text-sm transition-colors
+          ${outOfStock
                   ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
-                  : 'bg-stone-900 text-amber-50 hover:bg-amber-700'}`}>
+                  : 'bg-stone-900 text-amber-50 hover:bg-amber-700'
+                }`}
+            >
               <ShoppingCart size={16} />
               {outOfStock ? 'Out of Stock' : 'Add to Cart'}
             </button>
 
-            <Link to="/books"
-              className="flex items-center gap-2 px-6 py-3.5 rounded-full border border-amber-200 text-stone-700 text-sm font-medium hover:bg-amber-50 transition-colors no-underline">
+            <Link
+              to="/books"
+              className="w-full sm:w-auto flex justify-center items-center gap-2 px-6 py-3.5 rounded-full border border-amber-200 text-stone-700 text-sm font-medium hover:bg-amber-50 transition-colors no-underline"
+            >
               <ArrowLeft size={15} />
               Back to Books
             </Link>
@@ -156,17 +186,24 @@ export default function BookDetail() {
 
           {/* Delivery note */}
           {!outOfStock && (
-            <div className="mt-5 bg-amber-50 rounded-xl px-4 py-3 text-xs text-stone-500 flex flex-wrap gap-3 items-center">
+            <div className="mt-5 bg-amber-50 rounded-xl px-4 py-3 text-xs text-stone-500 flex flex-col sm:flex-row flex-wrap gap-3">
               <span className="flex items-center gap-1.5">
-                <Package size={13} className="text-amber-600" /> Free delivery over $30
+                <Package size={13} className="text-amber-600" />
+                Free delivery over Rs. 2000
               </span>
-              <span>·</span>
+
+              <span className="hidden sm:block">·</span>
+
               <span className="flex items-center gap-1.5">
-                <Truck size={13} className="text-amber-600" /> Pay on delivery
+                <Truck size={13} className="text-amber-600" />
+                Pay on delivery
               </span>
-              <span>·</span>
+
+              <span className="hidden sm:block">·</span>
+
               <span className="flex items-center gap-1.5">
-                <RotateCcw size={13} className="text-amber-600" /> Easy returns
+                <RotateCcw size={13} className="text-amber-600" />
+                Easy returns
               </span>
             </div>
           )}
